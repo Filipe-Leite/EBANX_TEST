@@ -1,5 +1,5 @@
 from fastapi import FastAPI, status
-from fastapi.responses import Response
+from fastapi.responses import Response,PlainTextResponse
 from app.repositories import account_repository
 
 app = FastAPI()
@@ -15,9 +15,15 @@ async def reset_state():
 # or
 # Get balance for existing account
 
-@app.get("/balance")
-async def get_balance():
-    return
+@app.get("/balance", response_class=PlainTextResponse)
+async def get_balance(account_id: str):
+    balance = account_repository.get_balance(account_id)
+    
+    if balance is not None:
+        return str(balance) 
+    
+    return PlainTextResponse(content="0", status_code=status.HTTP_404_NOT_FOUND)
+
 
 # Create account with initial balance
 # or

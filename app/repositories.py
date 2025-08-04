@@ -6,6 +6,8 @@ class AccountRepository:
 
     def reset(self):
         self._accounts = {}
-
+        
+    def get_balance(self, account_id: str) -> int | None:
+        return self._accounts.get(account_id)
 
 account_repository = AccountRepository()
