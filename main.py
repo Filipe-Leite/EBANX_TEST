@@ -1,14 +1,19 @@
 from fastapi import FastAPI, status
+from fastapi.responses import Response
+from app.repositories import account_repository
 
 app = FastAPI()
 
 # Reset state before starting tests
 
-@app.post("/reset")
+@app.post("/reset", status_code=status.HTTP_200_OK)
 async def reset_state():
-    return
+    account_repository.reset()
+    return Response(content="OK", media_type="text/plain")
 
-# Get balance for non-existing account
+# Get balance for existing account
+# or
+# Get balance for existing account
 
 @app.get("/balance")
 async def get_balance():
@@ -27,11 +32,5 @@ async def get_balance():
 # Transfer from non-existing account
 
 @app.post("/event")
-async def create_account_or_deposit_account():
-    return
-
-# Get balance for existing account
-
-@app.post("/balance")
-async def create_account_or_deposit_account():
+async def create_withdraw_transfer_account():
     return
