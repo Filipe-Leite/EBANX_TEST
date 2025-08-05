@@ -39,10 +39,15 @@ async def get_balance(account_id: str):
 # or
 # Transfer from non-existing account
 
-@app.post("/event")
+@app.post("/event", status_code=status.HTTP_200_OK)
 async def handle_event(event: Event):
     try:
         if event.type == "deposit":
             return AccountService.deposit(event.destination, event.amount)
+        elif event.type == "withdraw":
+            return AccountService.withdraw(event.origin, event.amount)
     except ValueError:
-        raise HTTPException(status_code=404, detail="0")
+            return PlainTextResponse(
+                content="0",
+                status_code=status.HTTP_404_NOT_FOUND
+            )

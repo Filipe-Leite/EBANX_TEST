@@ -13,5 +13,11 @@ class AccountRepository:
     def deposit(self, account_id: str, amount: int):
         self._accounts[account_id] = self._accounts.get(account_id, 0) + amount
         return self._accounts[account_id]
+    
+    def withdraw(self, account_id: str, amount: int) -> int:
+        if account_id not in self._accounts:
+            raise ValueError("Account not found")
+        self._accounts[account_id] -= amount
+        return self._accounts[account_id]
 
 account_repository = AccountRepository()
