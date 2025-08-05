@@ -10,6 +10,12 @@ class AccountResponse(BaseModel):
     id: str
     balance: int
 
+class WithdrawResponse(BaseModel):
+    origin: AccountResponse
+
+class DepositResponse(BaseModel):
+    destination: AccountResponse
+
 class TransferResponse(BaseModel):
     origin: AccountResponse
     destination: AccountResponse
