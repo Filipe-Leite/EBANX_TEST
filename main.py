@@ -20,7 +20,7 @@ async def get_balance(account_id: str):
     
     return PlainTextResponse(content="0", status_code=status.HTTP_404_NOT_FOUND)
 
-@app.post("/event", status_code=status.HTTP_200_OK)
+@app.post("/event", status_code=status.HTTP_201_CREATED)
 async def handle_event(event: EventRequest):
 
     try:
