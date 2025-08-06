@@ -1,7 +1,7 @@
-from fastapi import FastAPI, status,HTTPException
+from fastapi import FastAPI, status
 from fastapi.responses import Response,PlainTextResponse
 from app.repositories import account_repository
-from app.models import Event
+from app.models import EventRequest
 from app.services import AccountService
 
 app = FastAPI()
@@ -40,12 +40,15 @@ async def get_balance(account_id: str):
 # Transfer from non-existing account
 
 @app.post("/event", status_code=status.HTTP_200_OK)
-async def handle_event(event: Event):
+async def handle_event(event: EventRequest):
+
     try:
         if event.type == "deposit":
             return AccountService.deposit(event.destination, event.amount)
         elif event.type == "withdraw":
             return AccountService.withdraw(event.origin, event.amount)
+        elif event.type == "transfer":
+            return AccountService.transfer(event.origin, event.amount, event.destination)
     except ValueError:
             return PlainTextResponse(
                 content="0",
